@@ -1,4 +1,4 @@
-[![Build Status](https://travis-ci.org/MTGDatabaseApp-Database.svg?branch=master)](https://travis-ci.org/MTGDatabaseApp-Database)
+[![Build Status](https://travis-ci.org/hankinsoft/MTGDatabaseApp-Database.svg?branch=master)](https://travis-ci.org/hankinsoft/MTGDatabaseApp-Database)
 [![Carthage compatible](https://img.shields.io/badge/Carthage-compatible-4BC51D.svg?style=flat)](https://github.com/Carthage/Carthage)
 
 # MTGDatabaseApp-Database
