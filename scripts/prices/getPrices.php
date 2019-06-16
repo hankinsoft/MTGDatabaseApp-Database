@@ -31,21 +31,7 @@
 
   // Get a timestamp for today. (without HMS).
   $timestampForDay = strtotime(date("Y-m-d", time()));
-
-  $query = "SELECT MAX(priceVersion)+1 AS priceVersion FROM MagicCardPrices";
-  $results = $pricesdb->query ($query) or die("Failed to run query\r\n" . $query . "\r\n");
-
-  $newPriceVersion = 0;
-
-  while ($row = $results->fetchArray())
-  {
-    $newPriceVersion = $row ['priceVersion'];
-  }
-
-  if(empty($newPriceVersion))
-  {
-    $newPriceVersion = 0;
-  }
+  $newPriceVersion = time();
 
   echo ( "New price version is: $newPriceVersion\r\n" );
 
@@ -166,7 +152,7 @@
   $pricesdb->Close();
 
   echo ( "Finished Found: $found Updated: $updated Missed: $missing. Already updated today: $alreadyUpdatedToday.\r\n" );
-  echo (microtime(true) - $time) . ' elapsed';
+  echo (microtime(true) - $time) . ' elapsed' . "\r\n";
 
   function getXml ( $setName, $cardName )
   {
