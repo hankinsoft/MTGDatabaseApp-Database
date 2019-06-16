@@ -37,7 +37,7 @@
 
   // get all data row by row
   $query = 'SELECT card.multiverseId, card.name as cardName, cardSet.name AS setName FROM card INNER JOIN cardSet ON card.cardSetId = cardSet.cardSetId ';
-//  $query .= 'WHERE cardSet.cardSetId IN (114) ';
+//  $query .= 'WHERE cardSet.cardSetId IN (209) ';
 
   $query .= 'ORDER BY cardSet.name, card.multiverseId ASC';
   $results = $mtgdb->query($query) or die('mtgdb failed');
@@ -67,9 +67,11 @@
       continue;
     }
 
-    $existsQuery = "SELECT 1 FROM MagicCardPrices WHERE lastUpdated = $timestampForDay";
+    $existsQuery = "SELECT 1 FROM MagicCardPrices WHERE multiverseId = $multiverseId AND lastUpdated = $timestampForDay";
     $existingResults = $pricesdb->query($existsQuery) or die ('Failed to run select');
-    if(count($existingResults))
+    $priceRow = $existingResults->fetchArray ();
+
+    if($priceRow && !empty($priceRow) && 1 == $priceRow[0])
     {
       ++$alreadyUpdatedToday;
       continue;
