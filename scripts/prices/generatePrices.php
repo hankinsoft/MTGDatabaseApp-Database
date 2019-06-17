@@ -29,8 +29,10 @@
   $missing = 0;
   $updated = 0;
 
+  $generatedAt = time();
+
   $file_w = fopen('../../MTGDatabase/Resources/prices.bin', 'w+');
-  fwrite($file_w, date("Y-m-d"));
+  fwrite($file_w, pack('Q', $generatedAt));
 
   while ($row = $results->fetchArray())
   {
@@ -73,7 +75,7 @@
   fclose($file_w);
 
   $file_w = fopen('../../MTGDatabase/Resources/pricesTimestamp.bin', 'w+');
-  fwrite($file_w, pack('i', time()));
+  fwrite($file_w, pack('Q', $generatedAt));
   fclose($file_w);
 
   echo("Finished.\r\n");
