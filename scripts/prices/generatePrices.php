@@ -1,6 +1,11 @@
 <?php
   error_reporting(E_ALL);
 
+  if(PHP_INT_SIZE !== 8)
+  {
+    die("Error - Not running on x64. Generating binary file must be run on x64.\r\n");
+  }
+
   $pricesPath = realpath(dirname(__FILE__)) . "/prices.sqlite";
   echo("Prices path is: $pricesPath.\r\n");
   if(!file_exists($pricesPath))
@@ -66,5 +71,10 @@
   }
 
   fclose($file_w);
+
+  $file_w = fopen('../../MTGDatabase/Resources/pricesTimestamp.bin', 'w+');
+  fwrite($file_w, pack('i', time()));
+  fclose($file_w);
+
   echo("Finished.\r\n");
 ?>
