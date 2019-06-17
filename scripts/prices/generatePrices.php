@@ -48,6 +48,7 @@
     $highPrice = intval(floatval($row['highPrice']) * 100);
     $multiverseId = $row['multiverseId'];
 
+/*
     if($highPrice > 65535)
     {
       $highPrice /= 100;
@@ -65,7 +66,7 @@
       $lowPrice /= 100;
       $multiverseId |= 1 << 29;
     }
-
+*/
     $bin_str = pack('l', $multiverseId);
     fwrite($file_w, $bin_str);
 
