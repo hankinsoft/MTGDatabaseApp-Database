@@ -16,7 +16,11 @@
   $pricesdb = new SQLite3 ( $pricesPath ) or die('Prices database failed to open.');
 
   // get all data row by row
-  $results = $pricesdb->query('SELECT multiverseId, lowPrice, avgPrice, highPrice, priceVersion FROM MagicCardPrices ORDER BY multiverseId ASC')
+  $query  = 'SELECT multiverseId, lowPrice, avgPrice, highPrice, priceVersion FROM MagicCardPrices ';
+//  $query .= ' WHERE multiverseId = 464143';
+  $query .= ' ORDER BY multiverseId ASC;';
+
+  $results = $pricesdb->query($query)
     or die('Failed to get prices');
 
   if(0 == count($results))
@@ -34,13 +38,16 @@
   $file_w = fopen('../../MTGDatabase/Resources/prices.bin', 'w+');
   fwrite($file_w, pack('Q', $generatedAt));
 
+  $cardCounter = 0;
   while ($row = $results->fetchArray())
   {
-    $lowPrice = $row['lowPrice'];
-    $avgPrice = $row['avgPrice'];
-    $highPrice = $row['highPrice'];
-    $multiverseId = $row['multiverseId'];
+    ++$cardCounter;
 
+    $lowPrice = floatval($row['lowPrice']) << 2;
+    $avgPrice = floatval($row['avgPrice']) << 2;
+    $highPrice = floatval($row['highPrice']) << 2;
+    $multiverseId = $row['multiverseId'];
+/*
     if($highPrice > 65535)
     {
       $highPrice /= 100;
@@ -58,17 +65,17 @@
       $lowPrice /= 100;
       $multiverseId |= 1 << 29;
     }
-
-    $bin_str = pack('i', $multiverseId);
+*/
+    $bin_str = pack('l', $multiverseId);
     fwrite($file_w, $bin_str);
 
-    $bin_str = pack('v', $lowPrice);
+    $bin_str = pack('l', $lowPrice);
     fwrite($file_w, $bin_str);
 
-    $bin_str = pack('v', $avgPrice);
+    $bin_str = pack('l', $avgPrice);
     fwrite($file_w, $bin_str);
 
-    $bin_str = pack('v', $highPrice);
+    $bin_str = pack('l', $highPrice);
     fwrite($file_w, $bin_str);
   }
 
@@ -78,5 +85,5 @@
   fwrite($file_w, pack('Q', $generatedAt));
   fclose($file_w);
 
-  echo("Finished.\r\n");
+  echo("Finished. Wrote prices for $cardCounter cards.\r\n");
 ?>
