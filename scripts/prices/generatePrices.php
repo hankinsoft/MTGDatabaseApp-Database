@@ -43,11 +43,11 @@
   {
     ++$cardCounter;
 
-    $lowPrice = floatval($row['lowPrice']) << 2;
-    $avgPrice = floatval($row['avgPrice']) << 2;
-    $highPrice = floatval($row['highPrice']) << 2;
+    $lowPrice = intval(floatval($row['lowPrice']) * 100);
+    $avgPrice = intval(floatval($row['avgPrice']) * 100);
+    $highPrice = intval(floatval($row['highPrice']) * 100);
     $multiverseId = $row['multiverseId'];
-/*
+
     if($highPrice > 65535)
     {
       $highPrice /= 100;
@@ -65,17 +65,17 @@
       $lowPrice /= 100;
       $multiverseId |= 1 << 29;
     }
-*/
+
     $bin_str = pack('l', $multiverseId);
     fwrite($file_w, $bin_str);
 
-    $bin_str = pack('l', $lowPrice);
+    $bin_str = pack('v', $lowPrice);
     fwrite($file_w, $bin_str);
 
-    $bin_str = pack('l', $avgPrice);
+    $bin_str = pack('v', $avgPrice);
     fwrite($file_w, $bin_str);
 
-    $bin_str = pack('l', $highPrice);
+    $bin_str = pack('v', $highPrice);
     fwrite($file_w, $bin_str);
   }
 
