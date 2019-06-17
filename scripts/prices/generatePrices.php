@@ -69,13 +69,13 @@
     $bin_str = pack('l', $multiverseId);
     fwrite($file_w, $bin_str);
 
-    $bin_str = pack('v', $lowPrice);
+    $bin_str = pack('l', $lowPrice);
     fwrite($file_w, $bin_str);
 
-    $bin_str = pack('v', $avgPrice);
+    $bin_str = pack('l', $avgPrice);
     fwrite($file_w, $bin_str);
 
-    $bin_str = pack('v', $highPrice);
+    $bin_str = pack('l', $highPrice);
     fwrite($file_w, $bin_str);
   }
 
